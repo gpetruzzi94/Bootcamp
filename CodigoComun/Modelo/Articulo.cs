@@ -11,7 +11,7 @@ namespace CodigoComun.Modelo
 {
     public class Articulo
     {
-        //defino mis atributos 
+        //defino mis atributos
         public int Id { get; set; }
         public string Nombre { set; get; }
 
