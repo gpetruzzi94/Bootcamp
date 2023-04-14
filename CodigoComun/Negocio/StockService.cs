@@ -17,7 +17,7 @@ namespace CodigoComun.Negocio
         public string AgregarStock(Stock StockAAGregar)
         {
 
-
+            StockRepository = new StockRepository();
             int r = StockRepository.AddStockDb(StockAAGregar);
 
             if (r == 1)
@@ -38,7 +38,7 @@ namespace CodigoComun.Negocio
         public string ActualizarStock(Stock StockAActualizar)
         {
 
-
+            StockRepository = new StockRepository();
             int r = StockRepository.UpdateStock(StockAActualizar);
 
             if (r == 1)
@@ -65,7 +65,7 @@ namespace CodigoComun.Negocio
             if (r == 1)
             {
 
-                return "Stock Eliminado";
+                return "Stock eliminado";
             }
             else
             {

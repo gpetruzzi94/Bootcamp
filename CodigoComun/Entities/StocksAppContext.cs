@@ -76,11 +76,13 @@ namespace CodigoComun.Entities
                 entity.HasOne(d => d.IdArticuloNavigation)
                     .WithMany(p => p.Stocks)
                     .HasForeignKey(d => d.IdArticulo)
+                    .HasPrincipalKey(p => p.Id)
                     .HasConstraintName("FK_Stocks_Articulos");
 
                 entity.HasOne(d => d.IdDepositoNavigation)
                     .WithMany(p => p.Stocks)
                     .HasForeignKey(d => d.IdDeposito)
+                    .HasPrincipalKey(p => p.Id)
                     .HasConstraintName("FK_Stocks_Depositos");
             });
 

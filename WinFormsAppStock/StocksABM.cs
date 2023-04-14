@@ -76,8 +76,8 @@ namespace WinFormsAppStock
 
 
 
-            stockAGuardar.IdArticuloNavigation = articuloAuxiliar;
-            stockAGuardar.IdDepositoNavigation = depositoAuxiliar;
+            stockAGuardar.IdArticulo = articuloAuxiliar.Id;
+            stockAGuardar.IdDeposito = depositoAuxiliar.Id;
             stockAGuardar.Cantidad = Convert.ToDecimal(txtCantidad.Text);
 
             if (string.IsNullOrEmpty(txtId.Text))
@@ -87,7 +87,7 @@ namespace WinFormsAppStock
                 resultado = stockService.AgregarStock(stockAGuardar);
 
 
-                if (resultado == "Stock Agregado")
+                if (resultado == "Stock agregado")
                 {
                     MessageBox.Show("Stock Agregado con exito");
                     this.Close();
