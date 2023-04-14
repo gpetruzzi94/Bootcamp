@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CodigoComun.Modelo;
+//using CodigoComun.Modelo;
+using CodigoComun.Negocio;
+using CodigoComun.Entities;
 
 namespace WinFormsAppStock
 {
     public partial class StocksForm : Form
     {
+
+        StockService stockService = new StockService();
         public StocksForm()
         {
             InitializeComponent();
@@ -23,8 +27,8 @@ namespace WinFormsAppStock
         public void CargarArticulos()
         {
 
-            Stock stockoAuxiliar = new Stock();
-            List<Stock> stocksEnLaDb = stockoAuxiliar.GetTodosLosStocks();
+
+            List<Stock> stocksEnLaDb = stockService.GetAllStocks();
             gvStocks.DataSource = stocksEnLaDb;
             
             gvStocks.Columns.Clear();
@@ -73,17 +77,16 @@ namespace WinFormsAppStock
 
             int idStockAEliminar = Convert.ToInt32(this.txtStockId.Text);
 
-            Stock articuloAuxiliar = new Stock();
 
-            int r = articuloAuxiliar.EliminarEnDb(idStockAEliminar);
+            string r = stockService.BorrarStock(idStockAEliminar);
 
-            if (r == 1)
+            if (r == "Stock eliminado")
             {
-                MessageBox.Show("Articulo eliminado");
+                MessageBox.Show("Stock eliminado");
             }
             else
             {
-                MessageBox.Show("No se pudo eliminar el Articulo");
+                MessageBox.Show("No se pudo eliminar el Stock");
             }
 
         }

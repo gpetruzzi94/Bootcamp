@@ -4,25 +4,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CodigoComun.Modelo;
+using CodigoComun.Entities;
+using CodigoComun.Datos;
+//using CodigoComun.Modelo;
 
 namespace CodigoComun.Negocio
 {
+
+
     public class ArticuloServices
     {
         private ArticuloRepository articuloRepository =new ArticuloRepository();
-        public int AgregarArticulo(Articulo articuloAAGregar) {
+        
+        
+        public string AgregarArticulo(Articulo articuloAAGregar) {
             
            
-            int r = articuloRepository.AddArticuloDb(articuloAAGregar);
+            int r = articuloRepository.AddArticulo(articuloAAGregar);
 
             if (r == 1) {
 
-                return 1;
+                return "Articulo agregado";
             }
             else
             {
-                return -1;
+                return "No se pudo agregar el articulo";
 
             }
         
@@ -30,20 +36,20 @@ namespace CodigoComun.Negocio
         
         }
 
-        public int ActualizarArticulo(Articulo articuloAActualizar)
+        public string ActualizarArticulo(Articulo articuloAActualizar)
         {
 
             
-            int r = articuloRepository.AlterArticuloDb(articuloAActualizar);
+            int r = articuloRepository.UpdateArticulo(articuloAActualizar);
 
             if (r == 1)
             {
 
-                return 1;
+                return "Articulo modificado";
             }
             else
             {
-                return -1;
+                return "No se pudo modificar el articulo";
 
             }
 
@@ -51,20 +57,20 @@ namespace CodigoComun.Negocio
 
         }
 
-        public int BorrarArticulo(int itemId)
+        public string BorrarArticulo(int itemId)
         {
 
 
-            int r = articuloRepository.DeleteArticuloDb(itemId);
+            int r = articuloRepository.EliminarArticulo(itemId);
 
             if (r == 1)
             {
 
-                return 1;
+                return "Articulo eliminado";
             }
             else
             {
-                return -1;
+                return "No se pudo eliminar el articulo";
 
             }
 
@@ -76,7 +82,7 @@ namespace CodigoComun.Negocio
         
 
             Articulo articuloAuxiliar = new Articulo();
-            articuloAuxiliar = articuloRepository.GetItemPorIdDb(itemId);
+            articuloAuxiliar = articuloRepository.GetArticuloById(itemId);
 
             return articuloAuxiliar;
 
@@ -84,9 +90,9 @@ namespace CodigoComun.Negocio
         
         }
 
-        public List<Articulo> GetItems() {
+        public List<Articulo> GetAllArticulos() {
 
-            return articuloRepository.GetAllItemsDb();
+            return articuloRepository.GetAllArticulos();
         
 
         

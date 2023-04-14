@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CodigoComun.Modelo;
+//using CodigoComun.Modelo;
 using CodigoComun.Negocio;
+using CodigoComun.Entities;
 
 namespace WinFormsAppStock
 {
@@ -33,19 +34,19 @@ namespace WinFormsAppStock
         {
             Articulo articuloAGuardar = new Articulo();
             ArticuloServices articuloServices = new ArticuloServices();
-            int resultado;
+            string resultado;
 
 
             articuloAGuardar.Nombre = txtNombre.Text;
             articuloAGuardar.Marca = txtMarca.Text;
             articuloAGuardar.MinimoStock = Convert.ToDecimal(txtMinimoStock.Text);
             articuloAGuardar.Proveedor = txtProveedor.Text;
-            articuloAGuardar.Precio = (float)Convert.ToDecimal(txtPrecio.Text);
+            articuloAGuardar.Precio = (decimal)Convert.ToDecimal(txtPrecio.Text);
             articuloAGuardar.Codigo = txtCodigo.Text;
 
             if (!string.IsNullOrEmpty(txtCodigo.Text)) {
 
-                List<Articulo> listaAuxiliar = articuloServices.GetItems();
+                List<Articulo> listaAuxiliar = articuloServices.GetAllArticulos();
 
                 foreach (Articulo art in listaAuxiliar) {
                     if (art.Codigo == articuloAGuardar.Codigo) {
@@ -64,7 +65,7 @@ namespace WinFormsAppStock
                 resultado = articuloServices.AgregarArticulo(articuloAGuardar);
 
 
-                if (resultado == 1)
+                if (resultado == "Articulo agregado")
                 {
                     MessageBox.Show("Articulo Agregado con exito");
                     this.Close();
@@ -84,7 +85,7 @@ namespace WinFormsAppStock
                 articuloAGuardar.Id = Convert.ToInt32(txtId.Text);
                 resultado = articuloServicesAuxiliar.ActualizarArticulo(articuloAGuardar);
 
-                if (resultado == 1)
+                if (resultado == "Articulo modificado")
                 {
                     MessageBox.Show("Articulo Modificado con exito");
                     this.Close();

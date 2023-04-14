@@ -7,13 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CodigoComun.Modelo;
+using CodigoComun.Entities;
 using CodigoComun.Negocio;
 
 namespace WinFormsAppStock.Vistas
 {
     public partial class ArticulosForm : Form
     {
+
+        ArticuloServices articuloServices = new ArticuloServices();
         public ArticulosForm()
         {
             InitializeComponent();
@@ -24,8 +26,7 @@ namespace WinFormsAppStock.Vistas
         public void CargarArticulos()
         {
 
-            ArticuloServices articuloServicesAuxiliar = new ArticuloServices();
-            List<Articulo> articulosEnLaDb = articuloServicesAuxiliar.GetItems();
+            List<Articulo> articulosEnLaDb = articuloServices.GetAllArticulos();
             gvArticulos.DataSource = articulosEnLaDb;
 
 
@@ -42,11 +43,10 @@ namespace WinFormsAppStock.Vistas
 
             int idArticuloAEliminar = Convert.ToInt32(this.txtArticuloId.Text);
 
-            ArticuloServices articuloServicesAuxiliar = new ArticuloServices();
 
-            int r = articuloServicesAuxiliar.BorrarArticulo(idArticuloAEliminar);
+            string r = articuloServices.BorrarArticulo(idArticuloAEliminar);
 
-            if (r == 1)
+            if (r == "Articulo eliminado")
             {
                 MessageBox.Show("Articulo eliminado");
             }

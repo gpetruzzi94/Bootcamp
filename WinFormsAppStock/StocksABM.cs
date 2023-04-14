@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CodigoComun.Modelo;
+//using CodigoComun.Modelo;
 using CodigoComun.Negocio;
 using CodigoComun.Entities;
 
@@ -18,6 +18,12 @@ namespace WinFormsAppStock
 {
     public partial class StocksABM : Form
     {
+
+
+        StockService stockService = new StockService();
+
+
+
         public StocksABM()
         {
             InitializeComponent();
@@ -43,7 +49,7 @@ namespace WinFormsAppStock
             depositoAMostrar = depositoServices.GetTodosLosDepositos();
 
             ArticuloServices articuloServicesAuxiliar = new ArticuloServices();
-            articuloAMostrar = articuloServicesAuxiliar.GetItems();
+            articuloAMostrar = articuloServicesAuxiliar.GetAllArticulos();
 
 
 
@@ -62,25 +68,26 @@ namespace WinFormsAppStock
         private void button1_Click(object sender, EventArgs e)
         {
             Stock stockAGuardar = new Stock();
+
             Articulo articuloAuxiliar = (Articulo)cbIdArticulo.SelectedItem;
             Deposito depositoAuxiliar = (Deposito)cbIdDeposito.SelectedItem;
             
-            int resultado;
+            string resultado;
 
 
 
-            stockAGuardar.ArticuloGuardado.Id = articuloAuxiliar.Id;
-            stockAGuardar.DepositoDondeEstaGuardado.Id = depositoAuxiliar.Id;
+            stockAGuardar.IdArticuloNavigation = articuloAuxiliar;
+            stockAGuardar.IdDepositoNavigation = depositoAuxiliar;
             stockAGuardar.Cantidad = Convert.ToDecimal(txtCantidad.Text);
 
             if (string.IsNullOrEmpty(txtId.Text))
             {
 
 
-                resultado = stockAGuardar.AgregarEnDb();
+                resultado = stockService.AgregarStock(stockAGuardar);
 
 
-                if (resultado == 1)
+                if (resultado == "Stock Agregado")
                 {
                     MessageBox.Show("Stock Agregado con exito");
                     this.Close();
@@ -96,11 +103,11 @@ namespace WinFormsAppStock
             {
 
 
-                Stock stockAuxiliar = new Stock();
-                stockAGuardar.Id = Convert.ToInt32(txtId.Text);
-                resultado = stockAuxiliar.ActualizarEnDb(stockAGuardar);
 
-                if (resultado == 1)
+                stockAGuardar.Id = Convert.ToInt32(txtId.Text);
+                resultado = stockService.ActualizarStock(stockAGuardar);
+
+                if (resultado == "Stock modificado")
                 {
                     MessageBox.Show("Stock Modificado con exito");
                     this.Close();
@@ -118,9 +125,8 @@ namespace WinFormsAppStock
         public void CargarDatosParaModificar(int stockId)
         {
 
-            Stock StockAuxiliar = new Stock();
 
-            Stock stockAMostrar = StockAuxiliar.GetItemsPorId(stockId);
+            Stock stockAMostrar = stockService.BuscarId(stockId);
             txtId.Text = Convert.ToString(stockAMostrar.Id);
             txtCantidad.Text = Convert.ToString(stockAMostrar.Cantidad);
             txtId.Enabled = false;

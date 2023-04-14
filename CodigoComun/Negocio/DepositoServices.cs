@@ -32,7 +32,7 @@ namespace CodigoComun.Negocio
 
         }
 
-        public int AddDeposito(Deposito depositoAAgregar)
+        public string AddDeposito(Deposito depositoAAgregar)
         {
 
             int r = depositoRepository.AddDepositoDb(depositoAAgregar);
@@ -41,17 +41,17 @@ namespace CodigoComun.Negocio
             if (r == 1)
             {
 
-                return 1;
+                return "Deposito agregado";
             }
             else
             {
-                return -1;
+                return "No se pudo agregar el deposito";
 
             }
 
         }
 
-        public int EliminarDeposito(int id)
+        public string EliminarDeposito(int id)
         {
             
 
@@ -62,14 +62,29 @@ namespace CodigoComun.Negocio
             if (r == 1)
             {
 
-                return 1;
+                return "Deposito agregado";
             }
             else
             {
-                return -1;
+                return "No se pudo agregar el deposito";
 
             }
 
+        }
+
+
+        public string ModificarDeposito(Deposito depositoAModificar) {
+
+            int r = depositoRepository.UpdateDeposito(depositoAModificar);
+
+            if (r == 1)
+            {
+                return "Deposito modificado";
+            }
+            else {
+                return "No se pudo modificar el deposito";
+            }
+        
         }
 
 

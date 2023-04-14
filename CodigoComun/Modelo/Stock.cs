@@ -1,6 +1,7 @@
 ﻿
 using CodigoComun.Datos;
 using CodigoComun.Negocio;
+using CodigoComun.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace CodigoComun.Modelo
 {
     public  class Stock
-    {
+    {/*
         public int Id { get; set; }
         public Articulo ArticuloGuardado { get; set; }
 
@@ -197,6 +198,6 @@ namespace CodigoComun.Modelo
 
 
 
-
+        */
     }
 }

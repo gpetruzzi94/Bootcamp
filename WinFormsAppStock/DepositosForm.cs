@@ -44,9 +44,9 @@ namespace WinFormsAppStock
 
             int idDepositoAEliminar = Convert.ToInt32(this.txtDepositoId.Text);
             DepositoServices depositoServices = new DepositoServices();
-            int r = depositoServices.EliminarDeposito(idDepositoAEliminar);
+            string r = depositoServices.EliminarDeposito(idDepositoAEliminar);
 
-            if (r == 1)
+            if (r == "Deposito eliminado")
             {
                 MessageBox.Show("Deposito eliminado");
             }

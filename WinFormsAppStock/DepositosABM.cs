@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CodigoComun.Modelo;
+//using CodigoComun.Modelo;
 using CodigoComun.Datos;
 using CodigoComun.Entities;
 using CodigoComun.Negocio;
@@ -34,7 +34,7 @@ namespace WinFormsAppStock
         {
             DepositoServices depositoServices = new DepositoServices();
 
-            int resultado;
+
 
             if (string.IsNullOrEmpty(txtId.Text))
             {
@@ -44,10 +44,10 @@ namespace WinFormsAppStock
                 depositoAGuardar.Capacidad = Convert.ToDecimal(txtCapacidad.Text);
                 depositoAGuardar.Direccion = txtDireccion.Text;
 
-                resultado = depositoServices.AddDeposito(depositoAGuardar);
+                string resultado = depositoServices.AddDeposito(depositoAGuardar);
 
 
-                if (resultado == 1)
+                if (resultado == "Deposito agregado")
                 {
                      MessageBox.Show("Deposito Agregado con exito");
                      this.Close();
@@ -62,14 +62,14 @@ namespace WinFormsAppStock
             else
             {
 
-                CodigoComun.Modelo.Deposito depositoAGuardar = new CodigoComun.Modelo.Deposito();
+                Deposito depositoAGuardar = new Deposito();
 
-                CodigoComun.Modelo.Deposito depositoAuxiliar = new CodigoComun.Modelo.Deposito();               
+                Deposito depositoAuxiliar = new Deposito();               
                 depositoAGuardar.Id = Convert.ToInt32(txtId.Text);               
-                resultado = depositoAuxiliar.ActualizarEnDb(depositoAGuardar);
+                string resultado = depositoServices.ModificarDeposito(depositoAGuardar);
 
                
-                if (resultado == 1)
+                if (resultado == "Deposito modificado")
                 {                  
                     MessageBox.Show("Deposito Modificado con exito");                   
                     this.Close();               

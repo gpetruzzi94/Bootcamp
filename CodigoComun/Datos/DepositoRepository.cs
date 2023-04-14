@@ -9,10 +9,12 @@ namespace CodigoComun.Datos
 {
     public class DepositoRepository
     {
+        StocksAppContext db = new StocksAppContext();
 
+
+            
         public List<Deposito> GetAllDepositos() { 
         
-            StocksAppContext db = new StocksAppContext();
 
             List<Deposito> depositos = new List<Deposito>();
             depositos = db.Depositos.ToList();
@@ -26,7 +28,6 @@ namespace CodigoComun.Datos
         public Deposito GetDepositoById(int id)
         {
 
-            StocksAppContext db = new StocksAppContext();
 
             Deposito deposito = new Deposito();
             deposito = db.Depositos.Find(id);
@@ -37,7 +38,6 @@ namespace CodigoComun.Datos
 
         public int AddDepositoDb(Deposito depositoAAgregar) { 
         
-            StocksAppContext db = new StocksAppContext();
 
             db.Depositos.Add(depositoAAgregar);
             int resultado = db.SaveChanges();
@@ -50,7 +50,7 @@ namespace CodigoComun.Datos
         public int EliminarDepositoDb(int id)
         {
 
-            StocksAppContext db =new StocksAppContext();
+
             db.Depositos.Remove(db.Depositos.Find(id));
 
             int resultado = db.SaveChanges();
@@ -60,6 +60,19 @@ namespace CodigoComun.Datos
 
         }
 
+        public int UpdateDeposito(Deposito depositoAActualizar ) {
+
+
+            db.Entry(depositoAActualizar).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            
+            int resultado = db.SaveChanges();
+
+
+            return resultado;
+
+
+
+        }
 
     }
 }
