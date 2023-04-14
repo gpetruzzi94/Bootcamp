@@ -10,10 +10,10 @@ namespace CodigoComun.Negocio
 {
     public class DepositoServices
     {
+        DepositoRepository depositoRepository = new DepositoRepository();
 
         public List<Deposito> GetTodosLosDepositos()
         {
-            DepositoRepository depositoRepository = new DepositoRepository();
             List <Deposito> depositos = depositoRepository.GetAllDepositos();
 
             return depositos;
@@ -25,7 +25,6 @@ namespace CodigoComun.Negocio
         public Deposito GetDepositoPorId(int id)
         {
 
-            DepositoRepository depositoRepository = new DepositoRepository();
             Deposito depositoAuxiliar = depositoRepository.GetDepositoById(id);
 
             return depositoAuxiliar;
@@ -35,8 +34,6 @@ namespace CodigoComun.Negocio
 
         public int AddDeposito(Deposito depositoAAgregar)
         {
-
-            DepositoRepository depositoRepository = new DepositoRepository();
 
             int r = depositoRepository.AddDepositoDb(depositoAAgregar);
 
@@ -56,7 +53,7 @@ namespace CodigoComun.Negocio
 
         public int EliminarDeposito(int id)
         {
-            DepositoRepository depositoRepository = new DepositoRepository();
+            
 
 
             int r = depositoRepository.EliminarDepositoDb(id);
