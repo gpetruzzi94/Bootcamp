@@ -4,7 +4,7 @@
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
-   "IncludeConnectionString": false,
+   "IncludeConnectionString": true,
    "ModelNamespace": null,
    "OutputContextPath": null,
    "OutputPath": "Entities",
@@ -15,7 +15,15 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
+         "Name": "[dbo].[Articulos]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Depositos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Stocks]",
          "ObjectType": 0
       }
    ],

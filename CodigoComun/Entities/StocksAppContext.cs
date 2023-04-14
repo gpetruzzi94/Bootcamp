@@ -17,12 +17,45 @@ namespace CodigoComun.Entities
             : base(options)
         {
         }
-       
 
+        public virtual DbSet<Articulo> Articulos { get; set; }
         public virtual DbSet<Deposito> Depositos { get; set; }
+        public virtual DbSet<Stock> Stocks { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-4UGI92H\\SQLEXPRESS;Initial Catalog=StocksApp;Integrated Security=True");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Articulo>(entity =>
+            {
+                entity.Property(e => e.Codigo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Marca)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MinimoStock).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Precio).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Proveedor)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Deposito>(entity =>
             {
                 entity.Property(e => e.Capacidad).HasColumnType("decimal(18, 2)");
@@ -36,28 +69,24 @@ namespace CodigoComun.Entities
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Stock>(entity =>
+            {
+                entity.Property(e => e.Cantidad).HasColumnType("decimal(18, 2)");
+
+                entity.HasOne(d => d.IdArticuloNavigation)
+                    .WithMany(p => p.Stocks)
+                    .HasForeignKey(d => d.IdArticulo)
+                    .HasConstraintName("FK_Stocks_Articulos");
+
+                entity.HasOne(d => d.IdDepositoNavigation)
+                    .WithMany(p => p.Stocks)
+                    .HasForeignKey(d => d.IdDeposito)
+                    .HasConstraintName("FK_Stocks_Depositos");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-4UGI92H\\SQLEXPRESS;Initial Catalog=StocksApp;trusted_connection=true;");
-            }
-
-
-            //serverBD = "DESKTOP-4UGI92H\\SQLEXPRESS";
-            //basedatos = "StocksApp";
-            //strcondatos = @"Data Source=" + this.serverBD + ";Initial Catalog=" + this.basedatos + ";Integrated Security=true";
-
-
-
-        }
     }
 }

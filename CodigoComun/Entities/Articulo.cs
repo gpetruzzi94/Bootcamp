@@ -5,17 +5,20 @@ using System.Collections.Generic;
 
 namespace CodigoComun.Entities
 {
-    public partial class Deposito
+    public partial class Articulo
     {
-        public Deposito()
+        public Articulo()
         {
             Stocks = new HashSet<Stock>();
         }
 
         public int Id { get; set; }
-        public decimal? Capacidad { get; set; }
         public string Nombre { get; set; }
-        public string Direccion { get; set; }
+        public string Marca { get; set; }
+        public decimal? MinimoStock { get; set; }
+        public string Proveedor { get; set; }
+        public decimal? Precio { get; set; }
+        public string Codigo { get; set; }
 
         public virtual ICollection<Stock> Stocks { get; set; }
     }
