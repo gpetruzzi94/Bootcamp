@@ -10,18 +10,14 @@ using System.Windows.Forms;
 //using CodigoComun.Modelo;
 using CodigoComun.Negocio;
 using CodigoComun.Entities;
-
-using Deposito = CodigoComun.Entities.Deposito;
 using CodigoComun.Datos;
 
 namespace WinFormsAppStock
 {
     public partial class StocksABM : Form
-    {
-
+    { 
 
         StockService stockService = new StockService();
-
 
 
         public StocksABM()
@@ -52,7 +48,6 @@ namespace WinFormsAppStock
             articuloAMostrar = articuloServicesAuxiliar.GetAllArticulos();
 
 
-
             cbIdDeposito.DataSource = new BindingSource(depositoAMostrar, null);
             cbIdArticulo.DataSource = new BindingSource(articuloAMostrar, null);
             cbIdDeposito.DisplayMember = "IdDeposito";
@@ -60,21 +55,15 @@ namespace WinFormsAppStock
             cbIdArticulo.DisplayMember = "IdArticulo";
             cbIdArticulo.ValueMember = "Id";
 
-        
-        
-        
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Stock stockAGuardar = new Stock();
-
             Articulo articuloAuxiliar = (Articulo)cbIdArticulo.SelectedItem;
             Deposito depositoAuxiliar = (Deposito)cbIdDeposito.SelectedItem;
             
             string resultado;
-
-
 
             stockAGuardar.IdArticulo = articuloAuxiliar.Id;
             stockAGuardar.IdDeposito = depositoAuxiliar.Id;
@@ -83,9 +72,7 @@ namespace WinFormsAppStock
             if (string.IsNullOrEmpty(txtId.Text))
             {
 
-
                 resultado = stockService.AgregarStock(stockAGuardar);
-
 
                 if (resultado == "Stock agregado")
                 {
@@ -97,12 +84,9 @@ namespace WinFormsAppStock
                     MessageBox.Show("Error guardando el Stock");
                 }
 
-
             }
             else
             {
-
-
 
                 stockAGuardar.Id = Convert.ToInt32(txtId.Text);
                 resultado = stockService.ActualizarStock(stockAGuardar);
@@ -116,8 +100,6 @@ namespace WinFormsAppStock
                 {
                     MessageBox.Show("Error Modificando el Stock");
                 }
-
-
 
             }
         }

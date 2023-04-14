@@ -51,7 +51,7 @@
             // 
             // stockBindingSource
             // 
-            stockBindingSource.DataSource = typeof(CodigoComun.Modelo.Stock);
+            stockBindingSource.DataSource = typeof(CodigoComun.Entities.Stock);
             // 
             // txtStockId
             // 
