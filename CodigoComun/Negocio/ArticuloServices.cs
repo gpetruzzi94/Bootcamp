@@ -12,7 +12,7 @@ namespace CodigoComun.Negocio
     {
         private ArticuloRepository articuloRepository =new ArticuloRepository();
         public int AgregarArticulo(Articulo articuloAAGregar) {
-
+            //test
            
             int r = articuloRepository.AddArticuloDb(articuloAAGregar);
 
