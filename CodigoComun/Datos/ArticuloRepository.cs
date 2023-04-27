@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CodigoComun.Entities;
-//using CodigoComun.Modelo;
+using CodigoComun.DTO;
 
 namespace CodigoComun.Datos
 {
     public class ArticuloRepository
     {
         StocksAppContext db = new StocksAppContext();
-
+        ArticuloDTO articuloDTO = new ArticuloDTO();
         public List<Articulo> GetAllArticulos() { 
         
             List<Articulo> articulos = new List<Articulo>();
@@ -23,11 +23,11 @@ namespace CodigoComun.Datos
         
         }
 
-        public Articulo GetArticuloById(int id) { 
+        public ArticuloDTO GetArticuloById(int id) { 
         
-            Articulo articulo = new Articulo();
-            articulo = db.Articulos.Find(id);
-            return articulo;
+            articuloDTO = new ArticuloDTO();
+            articuloDTO.articulo = db.Articulos.Find(id);
+            return articuloDTO;
 
         
         }

@@ -1,5 +1,6 @@
 ﻿using CodigoComun.Datos;
 using CodigoComun.Entities;
+using CodigoComun.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,20 +15,22 @@ namespace CodigoComun.Negocio
         private StockRepository StockRepository = new StockRepository();
 
 
-        public string AgregarStock(Stock StockAAGregar)
+        public StockDTO AgregarStock(StockDTO StockAAGregar)
         {
 
             StockRepository = new StockRepository();
-            int r = StockRepository.AddStockDb(StockAAGregar);
+            int r = StockRepository.AddStockDb(StockAAGregar.stock);
 
             if (r == 1)
             {
-
-                return "Stock agregado";
+                StockAAGregar.Mensaje = "Stock agregado";
+                return StockAAGregar;
             }
             else
             {
-                return "No se pudo agregar el Stock";
+                StockAAGregar.HuboError = true;
+                StockAAGregar.Mensaje = "No se pudo agregar el Stock";
+                return StockAAGregar;
 
             }
 
@@ -35,20 +38,22 @@ namespace CodigoComun.Negocio
 
         }
 
-        public string ActualizarStock(Stock StockAActualizar)
+        public StockDTO ActualizarStock(StockDTO StockAActualizar)
         {
 
             StockRepository = new StockRepository();
-            int r = StockRepository.UpdateStock(StockAActualizar);
+            int r = StockRepository.UpdateStock(StockAActualizar.stock);
 
             if (r == 1)
             {
-
-                return "Stock modificado";
+                StockAActualizar.Mensaje = "Stock modificado";
+                return StockAActualizar;
             }
             else
             {
-                return "No se pudo modificar el Stock";
+                StockAActualizar.HuboError = true;
+                StockAActualizar.Mensaje = "No se pudo modificar el Stock";
+                return StockAActualizar;
 
             }
 
@@ -56,20 +61,23 @@ namespace CodigoComun.Negocio
 
         }
 
-        public string BorrarStock(int itemId)
+        public StockDTO BorrarStock(int itemId)
         {
 
 
             int r = StockRepository.EliminarStockDb(itemId);
+            StockDTO stockDTO = new StockDTO();
 
             if (r == 1)
             {
-
-                return "Stock eliminado";
+                stockDTO.Mensaje = "Stock eliminado";
+                return stockDTO;
             }
             else
             {
-                return "No se pudo eliminar el Stock";
+                stockDTO.HuboError = true;
+                stockDTO.Mensaje = "No se pudo eliminar el Stock";
+                return stockDTO;
 
             }
 
@@ -77,11 +85,11 @@ namespace CodigoComun.Negocio
 
         }
 
-        public Stock BuscarId(int itemId)
+        public StockDTO BuscarId(int itemId)
         {
 
 
-            Stock StockAuxiliar = new Stock();
+            StockDTO StockAuxiliar = new StockDTO();
             StockAuxiliar = StockRepository.GetStockById(itemId);
 
             return StockAuxiliar;

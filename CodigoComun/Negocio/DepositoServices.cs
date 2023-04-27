@@ -1,5 +1,6 @@
 ﻿using CodigoComun.Datos;
 using CodigoComun.Entities;
+using CodigoComun.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,67 +23,75 @@ namespace CodigoComun.Negocio
         }
 
 
-        public Deposito GetDepositoPorId(int id)
+        public DepositoDTO GetDepositoPorId(int id)
         {
-
-            Deposito depositoAuxiliar = depositoRepository.GetDepositoById(id);
+            DepositoDTO depositoAuxiliar = new DepositoDTO();
+            depositoAuxiliar = depositoRepository.GetDepositoById(id);
 
             return depositoAuxiliar;
             
 
         }
 
-        public string AddDeposito(Deposito depositoAAgregar)
+        public DepositoDTO AddDeposito(DepositoDTO depositoAAgregar)
         {
 
-            int r = depositoRepository.AddDepositoDb(depositoAAgregar);
+            int r = depositoRepository.AddDepositoDb(depositoAAgregar.deposito);
 
 
             if (r == 1)
             {
-
-                return "Deposito agregado";
+                depositoAAgregar.Mensaje = "Deposito agregado";
+                return depositoAAgregar;
             }
             else
             {
-                return "No se pudo agregar el deposito";
+                depositoAAgregar.HuboError = true;
+                depositoAAgregar.Mensaje = "No se pudo agregar el deposito";
+                return depositoAAgregar;
 
             }
 
         }
 
-        public string EliminarDeposito(int id)
+        public DepositoDTO EliminarDeposito(int id)
         {
             
 
-
+            DepositoDTO deposito = new DepositoDTO();
             int r = depositoRepository.EliminarDepositoDb(id);
 
 
             if (r == 1)
             {
-
-                return "Deposito agregado";
+                deposito.Mensaje = "Deposito agregado";
+                return deposito;
             }
             else
             {
-                return "No se pudo agregar el deposito";
+                deposito.HuboError = true;
+                deposito.Mensaje = "No se pudo agregar el deposito";
+                return deposito;
 
             }
 
         }
 
 
-        public string ModificarDeposito(Deposito depositoAModificar) {
+        public DepositoDTO ModificarDeposito(DepositoDTO depositoAModificar) {
 
-            int r = depositoRepository.UpdateDeposito(depositoAModificar);
+            int r = depositoRepository.UpdateDeposito(depositoAModificar.deposito);
 
             if (r == 1)
             {
-                return "Deposito modificado";
+                depositoAModificar.Mensaje = "Deposito modificado";
+                return depositoAModificar;
             }
-            else {
-                return "No se pudo modificar el deposito";
+            else 
+            {
+                depositoAModificar.HuboError = true;
+                depositoAModificar.Mensaje = "No se pudo modificar el deposito";
+                return depositoAModificar;
             }
         
         }

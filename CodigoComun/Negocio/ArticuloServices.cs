@@ -6,29 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 using CodigoComun.Entities;
 using CodigoComun.Datos;
-//using CodigoComun.Modelo;
+using CodigoComun.DTO;
 
 namespace CodigoComun.Negocio
 {
-
 
     public class ArticuloServices
     {
         private ArticuloRepository articuloRepository =new ArticuloRepository();
         
         
-        public string AgregarArticulo(Articulo articuloAAGregar) {
+        public ArticuloDTO AgregarArticulo(ArticuloDTO articuloAAGregar) {
             
            
-            int r = articuloRepository.AddArticulo(articuloAAGregar);
+            int r = articuloRepository.AddArticulo(articuloAAGregar.articulo);
 
             if (r == 1) {
-
-                return "Articulo agregado";
+                articuloAAGregar.Mensaje ="Articulo agregado";
+                return articuloAAGregar;
             }
             else
             {
-                return "No se pudo agregar el articulo";
+                articuloAAGregar.HuboError = true;
+                articuloAAGregar.Mensaje = "No se pudo agregar el articulo";
+                return articuloAAGregar;
 
             }
         
@@ -36,20 +37,22 @@ namespace CodigoComun.Negocio
         
         }
 
-        public string ActualizarArticulo(Articulo articuloAActualizar)
+        public ArticuloDTO ActualizarArticulo(ArticuloDTO articuloAActualizar)
         {
 
             
-            int r = articuloRepository.UpdateArticulo(articuloAActualizar);
+            int r = articuloRepository.UpdateArticulo(articuloAActualizar.articulo);
 
             if (r == 1)
             {
-
-                return "Articulo modificado";
+                articuloAActualizar.Mensaje = "Articulo modificado";
+                return articuloAActualizar;
             }
             else
             {
-                return "No se pudo modificar el articulo";
+                articuloAActualizar.HuboError = true;
+                articuloAActualizar.Mensaje = "No se pudo modificar el articulo";
+                return articuloAActualizar;
 
             }
 
@@ -57,20 +60,22 @@ namespace CodigoComun.Negocio
 
         }
 
-        public string BorrarArticulo(int itemId)
+        public ArticuloDTO BorrarArticulo(int id)
         {
+            ArticuloDTO articuloAEliminar=new ArticuloDTO();
 
-
-            int r = articuloRepository.EliminarArticulo(itemId);
+            int r = articuloRepository.EliminarArticulo(id);
 
             if (r == 1)
             {
-
-                return "Articulo eliminado";
+                articuloAEliminar.Mensaje = "Articulo eliminado";
+                return articuloAEliminar;
             }
             else
             {
-                return "No se pudo eliminar el articulo";
+                articuloAEliminar.HuboError = true;
+                articuloAEliminar.Mensaje = "No se pudo eliminar el articulo";
+                return articuloAEliminar;
 
             }
 
@@ -78,10 +83,11 @@ namespace CodigoComun.Negocio
 
         }
 
-        public Articulo BuscarId(int itemId) { 
+        public ArticuloDTO BuscarId(int itemId) { 
         
 
-            Articulo articuloAuxiliar = new Articulo();
+            ArticuloDTO articuloAuxiliar = new ArticuloDTO();
+
             articuloAuxiliar = articuloRepository.GetArticuloById(itemId);
 
             return articuloAuxiliar;

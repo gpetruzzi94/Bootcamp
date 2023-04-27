@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CodigoComun.Entities;
+using CodigoComun.DTO;
 
 namespace CodigoComun.Datos
 {
@@ -25,12 +26,12 @@ namespace CodigoComun.Datos
         }
 
 
-        public Deposito GetDepositoById(int id)
+        public DepositoDTO GetDepositoById(int id)
         {
 
 
-            Deposito deposito = new Deposito();
-            deposito = db.Depositos.Find(id);
+            DepositoDTO deposito = new DepositoDTO();
+            deposito.deposito = db.Depositos.Find(id);
 
             return deposito;
 
