@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using CodigoComun.Modelo;
+using CodigoComun.DTO;
 using CodigoComun.Entities;
 using CodigoComun.Datos;
 using CodigoComun.Negocio;
@@ -35,7 +35,7 @@ namespace WinFormsAppStock
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            DepositoDTO depositoAuxiliar = new DepositoDTO();
             if (string.IsNullOrEmpty(this.txtDepositoId.Text))
             {
                 MessageBox.Show("Ingrese un Id e intente de nuevo");
@@ -44,9 +44,9 @@ namespace WinFormsAppStock
 
             int idDepositoAEliminar = Convert.ToInt32(this.txtDepositoId.Text);
             DepositoServices depositoServices = new DepositoServices();
-            string r = depositoServices.EliminarDeposito(idDepositoAEliminar);
+            depositoAuxiliar = depositoServices.EliminarDeposito(idDepositoAEliminar);
 
-            if (r == "Deposito eliminado")
+            if (depositoAuxiliar.Mensaje == "Deposito eliminado")
             {
                 MessageBox.Show("Deposito eliminado");
             }

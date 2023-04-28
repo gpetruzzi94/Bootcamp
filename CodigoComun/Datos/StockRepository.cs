@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CodigoComun.Entities;
-using CodigoComun.DTO;
+
 
 namespace CodigoComun.Datos
 {
@@ -26,12 +26,12 @@ namespace CodigoComun.Datos
         }
 
 
-        public StockDTO GetStockById(int id)
+        public Stock GetStockById(int id)
         {
 
 
-            StockDTO Stock = new StockDTO();
-            Stock.stock = db.Stocks.Find(id);
+            Stock Stock = new Stock();
+            Stock = db.Stocks.Find(id);
 
             return Stock;
 

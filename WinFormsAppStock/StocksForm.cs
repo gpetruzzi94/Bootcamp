@@ -10,6 +10,7 @@ using System.Windows.Forms;
 //using CodigoComun.Modelo;
 using CodigoComun.Negocio;
 using CodigoComun.Entities;
+using CodigoComun.DTO;
 
 namespace WinFormsAppStock
 {
@@ -75,12 +76,13 @@ namespace WinFormsAppStock
                 return;
             }
 
+            StockDTO stockDTO = new StockDTO();
             int idStockAEliminar = Convert.ToInt32(this.txtStockId.Text);
 
 
-            string r = stockService.BorrarStock(idStockAEliminar);
+            stockDTO = stockService.BorrarStock(idStockAEliminar);
 
-            if (r == "Stock eliminado")
+            if (stockDTO.Mensaje == "Stock eliminado")
             {
                 MessageBox.Show("Stock eliminado");
             }

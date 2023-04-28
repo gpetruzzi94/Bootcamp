@@ -19,7 +19,10 @@ namespace CodigoComun.Negocio
         {
 
             StockRepository = new StockRepository();
-            int r = StockRepository.AddStockDb(StockAAGregar.stock);
+
+            Stock stock = StockAAGregar.GetStock(StockAAGregar);
+
+            int r = StockRepository.AddStockDb(stock);
 
             if (r == 1)
             {
@@ -42,7 +45,8 @@ namespace CodigoComun.Negocio
         {
 
             StockRepository = new StockRepository();
-            int r = StockRepository.UpdateStock(StockAActualizar.stock);
+            Stock stock = StockAActualizar.GetStock(StockAActualizar);
+            int r = StockRepository.UpdateStock(stock);
 
             if (r == 1)
             {
@@ -89,10 +93,11 @@ namespace CodigoComun.Negocio
         {
 
 
-            StockDTO StockAuxiliar = new StockDTO();
-            StockAuxiliar = StockRepository.GetStockById(itemId);
+            StockDTO stockAuxiliar = new StockDTO();
+            
+            stockAuxiliar = stockAuxiliar.GetStockDTO(StockRepository.GetStockById(itemId));
 
-            return StockAuxiliar;
+            return stockAuxiliar;
 
 
 

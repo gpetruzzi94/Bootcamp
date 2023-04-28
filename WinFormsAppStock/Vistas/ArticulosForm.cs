@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CodigoComun.DTO;
 using CodigoComun.Entities;
 using CodigoComun.Negocio;
 
@@ -34,6 +35,7 @@ namespace WinFormsAppStock.Vistas
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ArticuloDTO articuloAuxiliar = new ArticuloDTO();
 
             if (string.IsNullOrEmpty(this.txtArticuloId.Text))
             {
@@ -44,9 +46,9 @@ namespace WinFormsAppStock.Vistas
             int idArticuloAEliminar = Convert.ToInt32(this.txtArticuloId.Text);
 
 
-            string r = articuloServices.BorrarArticulo(idArticuloAEliminar);
+            articuloAuxiliar = articuloServices.BorrarArticulo(idArticuloAEliminar);
 
-            if (r == "Articulo eliminado")
+            if (articuloAuxiliar.Mensaje == "Articulo eliminado")
             {
                 MessageBox.Show("Articulo eliminado");
             }

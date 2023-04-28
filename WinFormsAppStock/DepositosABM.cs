@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using CodigoComun.Modelo;
+using CodigoComun.DTO;
 using CodigoComun.Datos;
 using CodigoComun.Entities;
 using CodigoComun.Negocio;
@@ -39,15 +39,15 @@ namespace WinFormsAppStock
             if (string.IsNullOrEmpty(txtId.Text))
             {
 
-                CodigoComun.Entities.Deposito depositoAGuardar = new CodigoComun.Entities.Deposito();
+                DepositoDTO depositoAGuardar = new DepositoDTO();
                 depositoAGuardar.Nombre = txtNombre.Text;
                 depositoAGuardar.Capacidad = Convert.ToDecimal(txtCapacidad.Text);
                 depositoAGuardar.Direccion = txtDireccion.Text;
 
-                string resultado = depositoServices.AddDeposito(depositoAGuardar);
+                depositoAGuardar = depositoServices.AddDeposito(depositoAGuardar);
 
 
-                if (resultado == "Deposito agregado")
+                if (depositoAGuardar.Mensaje == "Deposito agregado")
                 {
                      MessageBox.Show("Deposito Agregado con exito");
                      this.Close();
@@ -62,14 +62,14 @@ namespace WinFormsAppStock
             else
             {
 
-                Deposito depositoAGuardar = new Deposito();
+                DepositoDTO depositoAGuardar = new DepositoDTO();
 
                 Deposito depositoAuxiliar = new Deposito();               
                 depositoAGuardar.Id = Convert.ToInt32(txtId.Text);               
-                string resultado = depositoServices.ModificarDeposito(depositoAGuardar);
+                depositoAGuardar = depositoServices.ModificarDeposito(depositoAGuardar);
 
                
-                if (resultado == "Deposito modificado")
+                if (depositoAGuardar.Mensaje == "Deposito modificado")
                 {                  
                     MessageBox.Show("Deposito Modificado con exito");                   
                     this.Close();               
@@ -89,7 +89,7 @@ namespace WinFormsAppStock
         {
 
 
-            CodigoComun.Entities.Deposito depositoAuxiliar = new CodigoComun.Entities.Deposito();
+            DepositoDTO depositoAuxiliar = new DepositoDTO();
             DepositoServices depositoServices = new DepositoServices();
 
            depositoAuxiliar = depositoServices.GetDepositoPorId(articuloId);

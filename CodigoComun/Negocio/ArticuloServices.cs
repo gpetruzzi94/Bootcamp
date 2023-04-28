@@ -17,22 +17,31 @@ namespace CodigoComun.Negocio
         
         
         public ArticuloDTO AgregarArticulo(ArticuloDTO articuloAAGregar) {
-            
-           
-            int r = articuloRepository.AddArticulo(articuloAAGregar.articulo);
-
-            if (r == 1) {
-                articuloAAGregar.Mensaje ="Articulo agregado";
-                return articuloAAGregar;
-            }
-            else
+            try
             {
-                articuloAAGregar.HuboError = true;
-                articuloAAGregar.Mensaje = "No se pudo agregar el articulo";
-                return articuloAAGregar;
+                Articulo articulo = articuloAAGregar.GetArticulo(articuloAAGregar);
+                int r = articuloRepository.AddArticulo(articulo);
+
+                if (r == 1)
+                {
+                    articuloAAGregar.Mensaje = "Articulo agregado";
+                    return articuloAAGregar;
+                }
+                else
+                {
+                    articuloAAGregar.HuboError = true;
+                    articuloAAGregar.Mensaje = "No se pudo agregar el articulo";
+                    return articuloAAGregar;
+
+                }
 
             }
-        
+            catch (Exception ex) { 
+                articuloAAGregar.HuboError=true;
+                articuloAAGregar.Mensaje = $"Hubo una excepcion dando de alta al articulo {ex.Message }";
+                return articuloAAGregar;
+            
+            }
         
         
         }
@@ -40,8 +49,8 @@ namespace CodigoComun.Negocio
         public ArticuloDTO ActualizarArticulo(ArticuloDTO articuloAActualizar)
         {
 
-            
-            int r = articuloRepository.UpdateArticulo(articuloAActualizar.articulo);
+            Articulo articuloAuxiliar = articuloAActualizar.GetArticulo(articuloAActualizar);
+            int r = articuloRepository.UpdateArticulo(articuloAuxiliar);
 
             if (r == 1)
             {
@@ -87,8 +96,8 @@ namespace CodigoComun.Negocio
         
 
             ArticuloDTO articuloAuxiliar = new ArticuloDTO();
-
-            articuloAuxiliar = articuloRepository.GetArticuloById(itemId);
+            
+            articuloAuxiliar = articuloAuxiliar.GetArticuloDTO(articuloRepository.GetArticuloById(itemId));
 
             return articuloAuxiliar;
 
@@ -100,7 +109,6 @@ namespace CodigoComun.Negocio
 
             return articuloRepository.GetAllArticulos();
         
-
         
         }
 

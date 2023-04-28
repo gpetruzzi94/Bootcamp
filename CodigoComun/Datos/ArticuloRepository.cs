@@ -13,7 +13,6 @@ namespace CodigoComun.Datos
     public class ArticuloRepository
     {
         StocksAppContext db = new StocksAppContext();
-        ArticuloDTO articuloDTO = new ArticuloDTO();
         public List<Articulo> GetAllArticulos() { 
         
             List<Articulo> articulos = new List<Articulo>();
@@ -23,11 +22,11 @@ namespace CodigoComun.Datos
         
         }
 
-        public ArticuloDTO GetArticuloById(int id) { 
+        public Articulo GetArticuloById(int id) { 
         
-            articuloDTO = new ArticuloDTO();
-            articuloDTO.articulo = db.Articulos.Find(id);
-            return articuloDTO;
+            Articulo articulo = new Articulo();
+            articulo = db.Articulos.Find(id);
+            return articulo;
 
         
         }

@@ -26,7 +26,7 @@ namespace CodigoComun.Negocio
         public DepositoDTO GetDepositoPorId(int id)
         {
             DepositoDTO depositoAuxiliar = new DepositoDTO();
-            depositoAuxiliar = depositoRepository.GetDepositoById(id);
+            depositoAuxiliar =depositoAuxiliar.GetDepositoDTO(depositoRepository.GetDepositoById(id));
 
             return depositoAuxiliar;
             
@@ -35,8 +35,8 @@ namespace CodigoComun.Negocio
 
         public DepositoDTO AddDeposito(DepositoDTO depositoAAgregar)
         {
-
-            int r = depositoRepository.AddDepositoDb(depositoAAgregar.deposito);
+            Deposito deposito = depositoAAgregar.GetDeposito(depositoAAgregar);
+            int r = depositoRepository.AddDepositoDb(deposito);
 
 
             if (r == 1)
@@ -80,7 +80,9 @@ namespace CodigoComun.Negocio
 
         public DepositoDTO ModificarDeposito(DepositoDTO depositoAModificar) {
 
-            int r = depositoRepository.UpdateDeposito(depositoAModificar.deposito);
+
+            Deposito deposito = depositoAModificar.GetDeposito(depositoAModificar);
+            int r = depositoRepository.UpdateDeposito(deposito);
 
             if (r == 1)
             {

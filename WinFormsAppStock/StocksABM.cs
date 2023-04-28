@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using CodigoComun.Modelo;
+using CodigoComun.DTO;
 using CodigoComun.Negocio;
 using CodigoComun.Entities;
 using CodigoComun.Datos;
@@ -59,7 +59,7 @@ namespace WinFormsAppStock
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Stock stockAGuardar = new Stock();
+            StockDTO stockAGuardar = new StockDTO();
             Articulo articuloAuxiliar = (Articulo)cbIdArticulo.SelectedItem;
             Deposito depositoAuxiliar = (Deposito)cbIdDeposito.SelectedItem;
             
@@ -72,9 +72,9 @@ namespace WinFormsAppStock
             if (string.IsNullOrEmpty(txtId.Text))
             {
 
-                resultado = stockService.AgregarStock(stockAGuardar);
+                stockAGuardar = stockService.AgregarStock(stockAGuardar);
 
-                if (resultado == "Stock agregado")
+                if (stockAGuardar.Mensaje == "Stock agregado")
                 {
                     MessageBox.Show("Stock Agregado con exito");
                     this.Close();
@@ -89,9 +89,9 @@ namespace WinFormsAppStock
             {
 
                 stockAGuardar.Id = Convert.ToInt32(txtId.Text);
-                resultado = stockService.ActualizarStock(stockAGuardar);
+                stockAGuardar = stockService.ActualizarStock(stockAGuardar);
 
-                if (resultado == "Stock modificado")
+                if (stockAGuardar.Mensaje == "Stock modificado")
                 {
                     MessageBox.Show("Stock Modificado con exito");
                     this.Close();
@@ -108,7 +108,7 @@ namespace WinFormsAppStock
         {
 
 
-            Stock stockAMostrar = stockService.BuscarId(stockId);
+            StockDTO stockAMostrar = stockService.BuscarId(stockId);
             txtId.Text = Convert.ToString(stockAMostrar.Id);
             txtCantidad.Text = Convert.ToString(stockAMostrar.Cantidad);
             txtId.Enabled = false;

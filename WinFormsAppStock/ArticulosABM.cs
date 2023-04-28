@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using CodigoComun.Modelo;
+using CodigoComun.DTO;
 using CodigoComun.Negocio;
 using CodigoComun.Entities;
 
@@ -32,7 +32,7 @@ namespace WinFormsAppStock
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Articulo articuloAGuardar = new Articulo();
+            ArticuloDTO articuloAGuardar = new ArticuloDTO();
             ArticuloServices articuloServices = new ArticuloServices();
             string resultado;
 
@@ -62,10 +62,10 @@ namespace WinFormsAppStock
             {
 
 
-                resultado = articuloServices.AgregarArticulo(articuloAGuardar);
+                articuloAGuardar = articuloServices.AgregarArticulo(articuloAGuardar);
 
 
-                if (resultado == "Articulo agregado")
+                if (articuloAGuardar.Mensaje == "Articulo agregado")
                 {
                     MessageBox.Show("Articulo Agregado con exito");
                     this.Close();
@@ -83,9 +83,9 @@ namespace WinFormsAppStock
 
                 ArticuloServices articuloServicesAuxiliar = new ArticuloServices();
                 articuloAGuardar.Id = Convert.ToInt32(txtId.Text);
-                resultado = articuloServicesAuxiliar.ActualizarArticulo(articuloAGuardar);
+                articuloAGuardar = articuloServicesAuxiliar.ActualizarArticulo(articuloAGuardar);
 
-                if (resultado == "Articulo modificado")
+                if (articuloAGuardar.Mensaje == "Articulo modificado")
                 {
                     MessageBox.Show("Articulo Modificado con exito");
                     this.Close();
@@ -105,14 +105,14 @@ namespace WinFormsAppStock
 
             ArticuloServices articuloServicesAuxiliar = new ArticuloServices();
 
-            Articulo articuloAMostrar = articuloServicesAuxiliar.BuscarId(articuloId);
+            ArticuloDTO articuloAMostrar = articuloServicesAuxiliar.BuscarId(articuloId);
             txtId.Text = Convert.ToString(articuloAMostrar.Id);
             txtNombre.Text = articuloAMostrar.Nombre;
             txtMarca.Text = articuloAMostrar.Marca;
             txtMinimoStock.Text = Convert.ToString(articuloAMostrar.MinimoStock);
             txtProveedor.Text = articuloAMostrar.Proveedor;
             txtPrecio.Text = Convert.ToString(articuloAMostrar.Precio);
-            txtPrecio.Text = Convert.ToString(articuloAMostrar.Codigo);
+            txtCodigo.Text = Convert.ToString(articuloAMostrar.Codigo);
             txtId.Enabled = false;
 
 
