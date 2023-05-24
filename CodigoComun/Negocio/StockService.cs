@@ -15,7 +15,9 @@ namespace CodigoComun.Negocio
         private StockRepository StockRepository = new StockRepository();
 
 
-        public StockDTO VerificarStockDTO(StockDTO stockDTO) { 
+        public StockDTO VerificarStockDTO(StockDTO stockDTO) {
+
+            StockRepository = new StockRepository();
 
             if (stockDTO == null)
             {
@@ -48,11 +50,10 @@ namespace CodigoComun.Negocio
         {
             try
             {
+                StockRepository = new StockRepository();
                 stockAAgregar = VerificarStockDTO(stockAAgregar);
                 if (stockAAgregar.HuboError == true) {
-                        stockAAgregar.HuboError = false;
-                        stockAAgregar.Mensaje = "";
-                        stockAAgregar = ActualizarStock(stockAAgregar);
+                        stockAAgregar.Mensaje = "ya existe un stock con esos datos";
                         return stockAAgregar;
 
                 }
@@ -91,7 +92,7 @@ namespace CodigoComun.Negocio
 
             try
             {
-
+                StockRepository = new StockRepository();
                 StockDTO stockAuxiliar = new StockDTO();
 
    
@@ -141,6 +142,7 @@ namespace CodigoComun.Negocio
 
         public StockDTO BorrarStock(int itemId)
         {
+            StockRepository = new StockRepository();
             StockDTO stockDTO = new StockDTO();
             try
             {
@@ -173,7 +175,7 @@ namespace CodigoComun.Negocio
         public StockDTO BuscarId(int itemId)
         {
 
-
+            StockRepository = new StockRepository();
             StockDTO stockAuxiliar = new StockDTO();
             
             stockAuxiliar = stockAuxiliar.GetStockDTO(StockRepository.GetStockById(itemId));
@@ -186,7 +188,7 @@ namespace CodigoComun.Negocio
 
         public List<StockDTO> GetAllStocks()
         {
-
+            StockRepository = new StockRepository();
             return StockRepository.GetAllStocks();
 
 
