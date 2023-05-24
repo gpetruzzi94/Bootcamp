@@ -29,7 +29,7 @@ namespace WinFormsAppStock
         {
 
 
-            List<Stock> stocksEnLaDb = stockService.GetAllStocks();
+            List<StockDTO> stocksEnLaDb = stockService.GetAllStocks();
             gvStocks.DataSource = stocksEnLaDb;
             
             gvStocks.Columns.Clear();
@@ -88,7 +88,7 @@ namespace WinFormsAppStock
             }
             else
             {
-                MessageBox.Show("No se pudo eliminar el Stock");
+                MessageBox.Show("No se pudo eliminar el Stock\n" + $"{stockDTO.Mensaje}");
             }
 
         }

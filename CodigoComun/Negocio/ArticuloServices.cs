@@ -14,11 +14,56 @@ namespace CodigoComun.Negocio
     public class ArticuloServices
     {
         private ArticuloRepository articuloRepository =new ArticuloRepository();
-        
-        
+
+
+        public bool VerificarArticuloDTO(int id) {
+            
+            StockService stckService = new StockService();
+            List<StockDTO> listaAuxiliar = stckService.GetAllStocks();
+
+            foreach(var item in listaAuxiliar)
+            {
+                if(item.IdArticulo == id)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool VerificarArticuloDTOCodigo(ArticuloDTO articulo)
+        {
+
+            if (articulo == null) {
+                articulo.HuboError = true;
+                articulo.Mensaje = "El articulo esta vacio,agregue datos";
+                return true;
+            }
+
+            ArticuloServices articuloServices = new ArticuloServices();
+            List<ArticuloDTO> listaAuxiliar = articuloServices.GetAllArticulos();
+
+            foreach (var item in listaAuxiliar)
+            {
+                if (item.Id != articulo.Id && item.Codigo == articulo.Codigo)
+                {
+                    articulo.HuboError = true;
+                    articulo.Mensaje = "No se puede agregar un articulo con un codigo ya existente";
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public ArticuloDTO AgregarArticulo(ArticuloDTO articuloAAGregar) {
             try
             {
+                if (VerificarArticuloDTOCodigo(articuloAAGregar)) { 
+                    return articuloAAGregar;
+                }
+
                 Articulo articulo = articuloAAGregar.GetArticulo(articuloAAGregar);
                 int r = articuloRepository.AddArticulo(articulo);
 
@@ -48,47 +93,76 @@ namespace CodigoComun.Negocio
 
         public ArticuloDTO ActualizarArticulo(ArticuloDTO articuloAActualizar)
         {
+            try {
 
-            Articulo articuloAuxiliar = articuloAActualizar.GetArticulo(articuloAActualizar);
-            int r = articuloRepository.UpdateArticulo(articuloAuxiliar);
+                if (VerificarArticuloDTOCodigo(articuloAActualizar))
+                {
+                    return articuloAActualizar;
+                }
 
-            if (r == 1)
-            {
-                articuloAActualizar.Mensaje = "Articulo modificado";
+                Articulo articuloAuxiliar = articuloAActualizar.GetArticulo(articuloAActualizar);
+                int r = articuloRepository.UpdateArticulo(articuloAuxiliar);
+
+                if (r == 1)
+                {
+                    articuloAActualizar.Mensaje = "Articulo modificado";
+                    return articuloAActualizar;
+                }
+                else
+                {
+                    articuloAActualizar.HuboError = true;
+                    articuloAActualizar.Mensaje = "No se pudo modificar el articulo";
+                    return articuloAActualizar;
+
+                }
+        
+            }catch (Exception ex) { 
+                articuloAActualizar.HuboError=true;
+                articuloAActualizar.Mensaje = $"Hubo una excepcion modificando al articulo {ex.Message }";
                 return articuloAActualizar;
-            }
-            else
-            {
-                articuloAActualizar.HuboError = true;
-                articuloAActualizar.Mensaje = "No se pudo modificar el articulo";
-                return articuloAActualizar;
-
+            
             }
 
 
-
-        }
+}
 
         public ArticuloDTO BorrarArticulo(int id)
         {
-            ArticuloDTO articuloAEliminar=new ArticuloDTO();
+            ArticuloDTO articuloAEliminar = new ArticuloDTO();
+            try {
 
-            int r = articuloRepository.EliminarArticulo(id);
+                if (VerificarArticuloDTO(id)) {
 
-            if (r == 1)
-            {
-                articuloAEliminar.Mensaje = "Articulo eliminado";
-                return articuloAEliminar;
+                    articuloAEliminar.HuboError = true;
+                    articuloAEliminar.Mensaje = "Este articulo esta en uso en un stock,no se puede eliminar";
+                    return articuloAEliminar;
+                }
+
+                int r = articuloRepository.EliminarArticulo(id);
+
+                if (r == 1)
+                {
+                    articuloAEliminar.Mensaje = "Articulo eliminado";
+                    return articuloAEliminar;
+                }
+                else
+                {
+                    articuloAEliminar.HuboError = true;
+                    articuloAEliminar.Mensaje = "No se pudo eliminar el articulo";
+                    return articuloAEliminar;
+
+                }
+
             }
-            else
+            catch (Exception ex)
             {
                 articuloAEliminar.HuboError = true;
-                articuloAEliminar.Mensaje = "No se pudo eliminar el articulo";
+                articuloAEliminar.Mensaje = $"Hubo una excepcion eliminando al articulo {ex.Message}";
                 return articuloAEliminar;
 
             }
 
-
+            
 
         }
 
@@ -105,11 +179,18 @@ namespace CodigoComun.Negocio
         
         }
 
-        public List<Articulo> GetAllArticulos() {
+        public List<ArticuloDTO> GetAllArticulos() {
 
             return articuloRepository.GetAllArticulos();
         
         
+        }
+        public List<StockDTO> GetArticulosStock(int id)
+        {
+
+            return articuloRepository.GetArticulosStock(id);
+
+
         }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodigoComun.DTO;
 using CodigoComun.Entities;
 
 
@@ -13,14 +14,21 @@ namespace CodigoComun.Datos
         StocksAppContext db = new StocksAppContext();
 
 
-        public List<Stock> GetAllStocks()
+        public List<StockDTO> GetAllStocks()
         {
+            StockDTO stockDTOAuxiliar = new StockDTO();
+            List<Stock> stocks = new List<Stock>();
 
+            stocks = db.Stocks.ToList();
 
-            List<Stock> Stocks = new List<Stock>();
-            Stocks = db.Stocks.ToList();
+            List<StockDTO> stockssDTO = new List<StockDTO>(stocks.Count);
 
-            return Stocks;
+            stocks.ForEach((item) =>
+            {
+                stockssDTO.Add(stockDTOAuxiliar.GetStockDTO(item));
+            });
+            return stockssDTO;
+
 
 
         }

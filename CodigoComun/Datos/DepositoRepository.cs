@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodigoComun.DTO;
 using CodigoComun.Entities;
 
 namespace CodigoComun.Datos
@@ -13,17 +14,47 @@ namespace CodigoComun.Datos
 
 
             
-        public List<Deposito> GetAllDepositos() { 
-        
+        public List<DepositoDTO> GetAllDepositos() {
 
+
+            DepositoDTO depositoDTOAuxiliar = new DepositoDTO();
             List<Deposito> depositos = new List<Deposito>();
+
             depositos = db.Depositos.ToList();
 
-            return depositos;
+            List<DepositoDTO> depositosDTO = new List<DepositoDTO>(depositos.Count);
 
-  
+            depositos.ForEach((item) =>
+            {
+                depositosDTO.Add(depositoDTOAuxiliar.GetDepositoDTO(item));
+            });
+            return depositosDTO;
+
+
         }
 
+
+        public List<StockDTO> GetDepositosStock(int id)
+        {
+
+
+            List<Stock> stocks = new List<Stock>();
+
+            stocks = db.Stocks.ToList();
+            StockDTO stockDTOAuxiliar = new StockDTO();
+            List<StockDTO> stocksDTO = new List<StockDTO>();
+
+            stocks.ForEach((item) =>
+            {
+                if (item.IdDeposito == id)
+                {
+                    stocksDTO.Add(stockDTOAuxiliar.GetStockDTO(item));
+                }
+
+            });
+            return stocksDTO;
+
+        }
 
         public Deposito GetDepositoById(int id)
         {

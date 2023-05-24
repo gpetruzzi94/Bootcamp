@@ -28,8 +28,40 @@ namespace WinFormsAppStock
         public void CargarDepositos()
         {
             DepositoServices depositoServices = new DepositoServices();
-            List<Deposito> depositosEnLaDb = depositoServices.GetTodosLosDepositos();
+            List<DepositoDTO> depositosEnLaDb = depositoServices.GetTodosLosDepositos();
             gvDepositos.DataSource = depositosEnLaDb;
+
+            gvDepositos.Columns.Clear();
+            gvDepositos.AutoGenerateColumns = false;
+            var column1 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Id column",
+                HeaderText = "Id",
+                DataPropertyName = "Id"
+            };
+            var column2 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Nombre column",
+                HeaderText = "Nombre",
+                DataPropertyName = "Nombre"
+            };
+            var column3 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Direccion column",
+                HeaderText = "Direccion",
+                DataPropertyName = "Direccion"
+            };
+            var column4 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Capacidad column",
+                HeaderText = "Capacidad",
+                DataPropertyName = "Capacidad"
+            };
+
+            this.gvDepositos.Columns.Add(column1);
+            this.gvDepositos.Columns.Add(column2);
+            this.gvDepositos.Columns.Add(column3);
+            this.gvDepositos.Columns.Add(column4);
 
         }
 
@@ -52,7 +84,7 @@ namespace WinFormsAppStock
             }
             else
             {
-                MessageBox.Show("No se pudo eliminar el Deposito");
+                MessageBox.Show("No se pudo eliminar el Deposito\n"+$"{depositoAuxiliar.Mensaje}");
             }
 
         }

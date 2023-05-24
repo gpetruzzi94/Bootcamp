@@ -54,7 +54,7 @@ namespace WinFormsAppStock
                 }
                 else
                 {
-                     MessageBox.Show("Error guardando el Deposito");
+                     MessageBox.Show("Error guardando el Deposito\n"+$"{depositoAGuardar.Mensaje}");
                 }
 
            
@@ -63,20 +63,22 @@ namespace WinFormsAppStock
             {
 
                 DepositoDTO depositoAGuardar = new DepositoDTO();
-
-                Deposito depositoAuxiliar = new Deposito();               
-                depositoAGuardar.Id = Convert.ToInt32(txtId.Text);               
+              
+                depositoAGuardar.Id = Convert.ToInt32(txtId.Text);
+                depositoAGuardar.Nombre= txtNombre.Text;
+                depositoAGuardar.Capacidad = Convert.ToDecimal(txtCapacidad.Text);
+                depositoAGuardar.Direccion = txtDireccion.Text;
                 depositoAGuardar = depositoServices.ModificarDeposito(depositoAGuardar);
 
-               
+
                 if (depositoAGuardar.Mensaje == "Deposito modificado")
-                {                  
-                    MessageBox.Show("Deposito Modificado con exito");                   
-                    this.Close();               
+                {
+                    MessageBox.Show("Deposito Modificado con exito");
+                    this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Error Modificando el Deposito");
+                    MessageBox.Show("Error Modificando el Deposito\n"+$"{depositoAGuardar.Mensaje}");
                
                 }
 

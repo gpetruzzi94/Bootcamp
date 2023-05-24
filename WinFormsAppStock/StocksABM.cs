@@ -37,10 +37,10 @@ namespace WinFormsAppStock
         }
 
         public void CargarComboBox() { 
-            List<Deposito> depositoAMostrar = new List<Deposito>();
-            List<Articulo> articuloAMostrar = new List<Articulo>();
+            List<DepositoDTO> depositoAMostrar = new List<DepositoDTO>();
+            List<ArticuloDTO> articuloAMostrar = new List<ArticuloDTO>();
 
-            Deposito depositoAuxiliar = new Deposito();
+
             DepositoServices depositoServices = new DepositoServices();
             depositoAMostrar = depositoServices.GetTodosLosDepositos();
 
@@ -60,8 +60,8 @@ namespace WinFormsAppStock
         private void button1_Click(object sender, EventArgs e)
         {
             StockDTO stockAGuardar = new StockDTO();
-            Articulo articuloAuxiliar = (Articulo)cbIdArticulo.SelectedItem;
-            Deposito depositoAuxiliar = (Deposito)cbIdDeposito.SelectedItem;
+            ArticuloDTO articuloAuxiliar = (ArticuloDTO)cbIdArticulo.SelectedItem;
+            DepositoDTO depositoAuxiliar = (DepositoDTO)cbIdDeposito.SelectedItem;
             
             string resultado;
 
@@ -81,7 +81,7 @@ namespace WinFormsAppStock
                 }
                 else
                 {
-                    MessageBox.Show("Error guardando el Stock");
+                    MessageBox.Show("Error guardando el Stock\n" + $"{stockAGuardar.Mensaje}");
                 }
 
             }
@@ -98,7 +98,7 @@ namespace WinFormsAppStock
                 }
                 else
                 {
-                    MessageBox.Show("Error Modificando el Stock");
+                    MessageBox.Show("Error Modificando el Stock\n" + $"{stockAGuardar.Mensaje}");
                 }
 
             }

@@ -15,76 +15,157 @@ namespace CodigoComun.Negocio
         private StockRepository StockRepository = new StockRepository();
 
 
-        public StockDTO AgregarStock(StockDTO StockAAGregar)
+        public StockDTO VerificarStockDTO(StockDTO stockDTO) { 
+
+            if (stockDTO == null)
+            {
+                stockDTO.HuboError = true;
+                stockDTO.Mensaje = "El stock esta vacio,agregue datos";
+                return stockDTO;
+            }
+
+            StockService stockService = new StockService();
+            List<StockDTO> listaAuxiliar = new List<StockDTO>();
+            listaAuxiliar = stockService.GetAllStocks();
+
+            foreach (var item in listaAuxiliar) {
+                if (item.IdArticulo == stockDTO.IdArticulo && item.IdDeposito == stockDTO.IdDeposito && stockDTO.Id != item.Id) {
+                    stockDTO = item;
+                    stockDTO.HuboError = true;
+                    stockDTO.Mensaje = "Existe";
+                    return stockDTO;
+                }
+            }
+
+            stockDTO.HuboError = false;
+            stockDTO.Mensaje = "No existe";
+            return stockDTO;
+        }
+        
+
+
+        public StockDTO AgregarStock(StockDTO stockAAgregar)
         {
-
-            StockRepository = new StockRepository();
-
-            Stock stock = StockAAGregar.GetStock(StockAAGregar);
-
-            int r = StockRepository.AddStockDb(stock);
-
-            if (r == 1)
+            try
             {
-                StockAAGregar.Mensaje = "Stock agregado";
-                return StockAAGregar;
-            }
-            else
+                stockAAgregar = VerificarStockDTO(stockAAgregar);
+                if (stockAAgregar.HuboError == true) {
+                        stockAAgregar.HuboError = false;
+                        stockAAgregar.Mensaje = "";
+                        stockAAgregar = ActualizarStock(stockAAgregar);
+                        return stockAAgregar;
+
+                }
+                stockAAgregar.HuboError = false;
+                stockAAgregar.Mensaje = "";
+                StockRepository = new StockRepository();
+
+                Stock stock = stockAAgregar.GetStock(stockAAgregar);
+
+                int r = StockRepository.AddStockDb(stock);
+
+                if (r == 1)
+                {
+                    stockAAgregar.Mensaje = "Stock agregado";
+                    return stockAAgregar;
+                }
+                else
+                {
+                    stockAAgregar.HuboError = true;
+                    stockAAgregar.Mensaje = "No se pudo agregar el Stock";
+                    return stockAAgregar;
+
+                }
+            }catch (Exception ex)
             {
-                StockAAGregar.HuboError = true;
-                StockAAGregar.Mensaje = "No se pudo agregar el Stock";
-                return StockAAGregar;
-
+                stockAAgregar.HuboError = true;
+                stockAAgregar.Mensaje = $"Hubo una excepcion dando de alta al stock {ex.Message}";
+                return stockAAgregar;
             }
-
 
 
         }
 
-        public StockDTO ActualizarStock(StockDTO StockAActualizar)
+        public StockDTO ActualizarStock(StockDTO stockAActualizar)
         {
 
-            StockRepository = new StockRepository();
-            Stock stock = StockAActualizar.GetStock(StockAActualizar);
-            int r = StockRepository.UpdateStock(stock);
-
-            if (r == 1)
+            try
             {
-                StockAActualizar.Mensaje = "Stock modificado";
-                return StockAActualizar;
-            }
-            else
+
+                StockDTO stockAuxiliar = new StockDTO();
+
+   
+                
+
+                stockAuxiliar = VerificarStockDTO(stockAActualizar);
+                if (stockAuxiliar.HuboError ==true)
+                {
+
+                    stockAActualizar.Mensaje= "Ya existe el stock con esos Id de articulo y deposito";
+                    return stockAActualizar;
+
+                }
+                 
+                if (stockAActualizar.Cantidad == 0) {
+                    stockAuxiliar = BorrarStock(stockAActualizar.Id);
+                    return stockAActualizar;
+
+                }
+                
+
+                Stock stock = stockAActualizar.GetStock(stockAActualizar);
+                int r = StockRepository.UpdateStock(stock);
+
+                if (r == 1)
+                {
+                    stockAActualizar.Mensaje = "Stock modificado";
+                    return stockAActualizar;
+                }
+                else
+                {
+                    stockAActualizar.HuboError = true;
+                    stockAActualizar.Mensaje = "No se pudo modificar el Stock";
+                    return stockAActualizar;
+
+                }
+
+            }catch(Exception ex)
             {
-                StockAActualizar.HuboError = true;
-                StockAActualizar.Mensaje = "No se pudo modificar el Stock";
-                return StockAActualizar;
+                stockAActualizar.HuboError = true;
+                stockAActualizar.Mensaje = $"Hubo una excepcion modificando al stock {ex.Message}";
+                return stockAActualizar;
 
             }
-
-
 
         }
 
         public StockDTO BorrarStock(int itemId)
         {
-
-
-            int r = StockRepository.EliminarStockDb(itemId);
             StockDTO stockDTO = new StockDTO();
-
-            if (r == 1)
+            try
             {
-                stockDTO.Mensaje = "Stock eliminado";
-                return stockDTO;
-            }
-            else
+
+                int r = StockRepository.EliminarStockDb(itemId);
+                
+
+                if (r == 1)
+                {
+                    stockDTO.Mensaje = "Stock eliminado";
+                    return stockDTO;
+                }
+                else
+                {
+                    stockDTO.HuboError = true;
+                    stockDTO.Mensaje = "No se pudo eliminar el Stock";
+                    return stockDTO;
+
+                }
+            }catch (Exception ex)
             {
                 stockDTO.HuboError = true;
-                stockDTO.Mensaje = "No se pudo eliminar el Stock";
+                stockDTO.Mensaje = $"Hubo una excepcion al eliminar el stock {ex.Message}";
                 return stockDTO;
-
             }
-
 
 
         }
@@ -103,7 +184,7 @@ namespace CodigoComun.Negocio
 
         }
 
-        public List<Stock> GetAllStocks()
+        public List<StockDTO> GetAllStocks()
         {
 
             return StockRepository.GetAllStocks();

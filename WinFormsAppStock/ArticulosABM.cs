@@ -44,19 +44,7 @@ namespace WinFormsAppStock
             articuloAGuardar.Precio = (decimal)Convert.ToDecimal(txtPrecio.Text);
             articuloAGuardar.Codigo = txtCodigo.Text;
 
-            if (!string.IsNullOrEmpty(txtCodigo.Text)) {
-
-                List<Articulo> listaAuxiliar = articuloServices.GetAllArticulos();
-
-                foreach (Articulo art in listaAuxiliar) {
-                    if (art.Codigo == articuloAGuardar.Codigo) {
-                        MessageBox.Show($"El codigo ingresado ya existe({art.Codigo})");
-                        return;            
-                    
-                    }
-                
-                }
-            }
+            
 
             if (string.IsNullOrEmpty(txtId.Text))
             {
@@ -72,7 +60,7 @@ namespace WinFormsAppStock
                 }
                 else
                 {
-                    MessageBox.Show("Error guardando el Articulo");
+                    MessageBox.Show("Error guardando el Articulo\n"+$"{articuloAGuardar.Mensaje}");
                 }
 
 
@@ -92,7 +80,7 @@ namespace WinFormsAppStock
                 }
                 else
                 {
-                    MessageBox.Show("Error Modificando el Articulo");
+                    MessageBox.Show("Error Modificando el Articulo\n" + $"{articuloAGuardar.Mensaje}");
                 }
 
 

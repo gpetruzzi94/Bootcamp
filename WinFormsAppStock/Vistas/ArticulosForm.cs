@@ -27,8 +27,62 @@ namespace WinFormsAppStock.Vistas
         public void CargarArticulos()
         {
 
-            List<Articulo> articulosEnLaDb = articuloServices.GetAllArticulos();
+            List<ArticuloDTO> articulosEnLaDb = articuloServices.GetAllArticulos();
             gvArticulos.DataSource = articulosEnLaDb;
+
+
+            gvArticulos.Columns.Clear();
+            gvArticulos.AutoGenerateColumns = false;
+            var column1 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Id column",
+                HeaderText = "Id",
+                DataPropertyName = "Id"
+            };
+            var column2 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Nombre column",
+                HeaderText = "Nombre",
+                DataPropertyName = "Nombre"
+            };
+            var column3 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Marca column",
+                HeaderText = "Marca",
+                DataPropertyName = "Marca"
+            };
+            var column4 = new DataGridViewTextBoxColumn()
+            {
+                Name = "MinimoStock column",
+                HeaderText = "MinimoStock",
+                DataPropertyName = "MinimoStock"
+            };
+            var column5 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Proveedor column",
+                HeaderText = "Proveedor",
+                DataPropertyName = "Proveedor"
+            };
+            var column6 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Precio column",
+                HeaderText = "Precio",
+                DataPropertyName = "Precio"
+            };
+            var column7 = new DataGridViewTextBoxColumn()
+            {
+                Name = "Codigo column",
+                HeaderText = "Codigo",
+                DataPropertyName = "Codigo"
+            };
+
+            this.gvArticulos.Columns.Add(column1);
+            this.gvArticulos.Columns.Add(column2);
+            this.gvArticulos.Columns.Add(column3);
+            this.gvArticulos.Columns.Add(column4);
+            this.gvArticulos.Columns.Add(column5);
+            this.gvArticulos.Columns.Add(column6);
+            this.gvArticulos.Columns.Add(column7);
 
 
         }
@@ -54,7 +108,7 @@ namespace WinFormsAppStock.Vistas
             }
             else
             {
-                MessageBox.Show("No se pudo eliminar el Articulo");
+                MessageBox.Show("No se pudo eliminar el Articulo\n" + $"{articuloAuxiliar.Mensaje}");
             }
 
         }
