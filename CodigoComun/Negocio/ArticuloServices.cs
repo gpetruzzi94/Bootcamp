@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CodigoComun.Entities;
+using CodigoComun.Datos;
 using CodigoComun.DTO;
 
 namespace CodigoComun.Negocio
@@ -33,6 +34,12 @@ namespace CodigoComun.Negocio
 
         public bool VerificarArticuloDTOCodigo(ArticuloDTO articulo)
         {
+
+            if (articulo == null) {
+                articulo.HuboError = true;
+                articulo.Mensaje = "El articulo esta vacio,agregue datos";
+                return true;
+            }
 
             ArticuloServices articuloServices = new ArticuloServices();
             List<ArticuloDTO> listaAuxiliar = articuloServices.GetAllArticulos();
